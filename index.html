@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>韩语学习打卡</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="locked">
+    <section id="authScreen" class="auth-screen">
+      <form id="loginForm" class="auth-card">
+        <div class="brand-mark">한</div>
+        <h1>韩语学习打卡</h1>
+        <p>输入你的专属访问码后进入学习空间。</p>
+        <label for="accessCode">访问码</label>
+        <input id="accessCode" type="password" autocomplete="current-password" placeholder="请输入访问码" />
+        <button class="primary-btn large" type="submit">进入</button>
+        <small id="loginMessage">每个人使用不同访问码，进度会分开保存。</small>
+      </form>
+    </section>
+
+    <main class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">한</div>
+          <div>
+            <h1>韩语学习打卡</h1>
+            <p>从 0 基础到 TOPIK I</p>
+          </div>
+          <button id="logoutButton" class="icon-text-btn" type="button">退出</button>
+        </div>
+
+        <details class="panel profile-panel">
+          <summary>学习设置</summary>
+          <label for="learnerName">学习者</label>
+          <input id="learnerName" type="text" maxlength="20" placeholder="写下你的名字" />
+
+          <label for="dailyGoal">每日目标</label>
+          <select id="dailyGoal">
+            <option value="30">30 分钟</option>
+            <option value="45">45 分钟</option>
+            <option value="60">60 分钟</option>
+            <option value="90">90 分钟</option>
+          </select>
+
+          <label for="reminderTime">提醒时间</label>
+          <input id="reminderTime" type="time" value="20:30" />
+          <button id="enableReminder" class="primary-btn" type="button">开启提醒</button>
+        </details>
+
+        <nav class="tab-list" aria-label="学习区域">
+          <button class="tab-button active" data-tab="today" type="button">今日</button>
+          <button class="tab-button" data-tab="pronunciation" type="button">发音</button>
+          <button class="tab-button" data-tab="progress" type="button">进度</button>
+          <button class="tab-button" data-tab="plan" type="button">计划</button>
+        </nav>
+      </aside>
+
+      <section class="content">
+        <section id="today" class="tab-page active">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">Today</p>
+              <h2 id="todayTitle">今天学一点韩语</h2>
+            </div>
+            <div class="streak-card">
+              <span id="streakCount">0</span>
+              <small>连续打卡</small>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel focus-panel">
+              <div class="panel-title">
+                <h3>今日任务</h3>
+                <button id="resetToday" class="ghost-btn" type="button">重置</button>
+              </div>
+              <div id="taskList" class="task-list"></div>
+              <div class="study-log">
+                <label for="minutesInput">今天学习了多少分钟</label>
+                <div class="inline-control">
+                  <input id="minutesInput" type="number" min="0" max="360" step="5" value="30" />
+                  <button id="saveMinutes" class="primary-btn" type="button">记录</button>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel checkin-panel">
+              <h3>打卡</h3>
+              <div class="checkin-ring" aria-live="polite">
+                <span id="todayPercent">0%</span>
+              </div>
+              <button id="checkIn" class="primary-btn large" type="button">完成今日打卡</button>
+              <p id="checkinHint">完成任务后点这里，系统会保存你的学习记录。</p>
+            </section>
+          </div>
+        </section>
+
+        <section id="pronunciation" class="tab-page">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">Pronunciation</p>
+              <h2>韩文字母与发音</h2>
+            </div>
+            <div class="voice-controls">
+              <select id="voiceSelect" aria-label="韩语声音">
+                <option value="">自动选择韩语声音</option>
+              </select>
+              <select id="voiceRate" aria-label="语速">
+                <option value="0.75">慢速</option>
+                <option value="0.95" selected>正常</option>
+                <option value="1.15">快速</option>
+              </select>
+            </div>
+          </div>
+
+          <section class="panel sound-lab">
+            <div class="sound-card">
+              <span id="currentHangul">아</span>
+              <strong id="currentName">元音 ㅏ</strong>
+              <div class="pronunciation-line">
+                <span id="currentRoman">a</span>
+                <small id="currentApprox">近似：啊</small>
+              </div>
+              <p id="currentTip">嘴巴自然张开，发接近中文“啊”的声音。</p>
+              <p id="currentExample" class="example-line">例词：아이</p>
+              <div class="button-row">
+                <button id="playCurrent" class="primary-btn" type="button">播放</button>
+                <button id="markMastered" class="ghost-btn" type="button">我会了</button>
+              </div>
+              <p id="voiceHint" class="voice-hint">如果没有声音，请在浏览器或系统里安装/启用韩语语音。</p>
+            </div>
+            <div id="hangulGrid" class="hangul-grid"></div>
+          </section>
+        </section>
+
+        <section id="progress" class="tab-page">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">Progress</p>
+              <h2>学习进度</h2>
+            </div>
+            <button id="exportData" class="ghost-btn" type="button">导出记录</button>
+          </div>
+
+          <div class="stats-grid">
+            <section class="panel stat-panel">
+              <span id="totalMinutes">0</span>
+              <small>累计分钟</small>
+            </section>
+            <section class="panel stat-panel">
+              <span id="checkedDays">0</span>
+              <small>打卡天数</small>
+            </section>
+            <section class="panel stat-panel">
+              <span id="masteredSounds">0</span>
+              <small>已掌握发音</small>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-title">
+              <h3>最近 14 天</h3>
+              <span id="goalLabel">目标 30 分钟/天</span>
+            </div>
+            <div id="barChart" class="bar-chart"></div>
+          </section>
+        </section>
+
+        <section id="plan" class="tab-page">
+          <div class="page-heading">
+            <div>
+              <p class="eyebrow">Roadmap</p>
+              <h2>每日日期进度表</h2>
+            </div>
+            <div class="plan-controls">
+              <label for="planStartDate">开始日期</label>
+              <input id="planStartDate" type="date" />
+              <button id="jumpToday" class="ghost-btn" type="button">定位今天</button>
+            </div>
+          </div>
+
+          <section class="timeline">
+            <article class="milestone">
+              <span>1-2 周</span>
+              <h3>韩文字母</h3>
+              <p>会读 40 个基础字母和常见收音，停止依赖罗马音。</p>
+            </article>
+            <article class="milestone">
+              <span>1-2 月</span>
+              <h3>基础句子</h3>
+              <p>掌握问候、自我介绍、数字、时间、位置和购物表达。</p>
+            </article>
+            <article class="milestone">
+              <span>3-4 月</span>
+              <h3>TOPIK I 1级</h3>
+              <p>每两周做一次听力与阅读小测，建立错题复盘。</p>
+            </article>
+            <article class="milestone">
+              <span>5-6 月</span>
+              <h3>冲 TOPIK I 2级</h3>
+              <p>开始整套模拟题，目标是稳定达到 TOPIK I 2级分数线。</p>
+            </article>
+          </section>
+
+          <section class="panel schedule-panel">
+            <div class="panel-title">
+              <h3>180 天每日安排</h3>
+              <span id="scheduleSummary">从 2026-06-02 开始</span>
+            </div>
+            <div id="dailySchedule" class="daily-schedule"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <template id="taskTemplate">
+      <label class="task-item">
+        <input type="checkbox" />
+        <span></span>
+      </label>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
